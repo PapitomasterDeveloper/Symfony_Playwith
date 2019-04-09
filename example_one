@@ -5,16 +5,20 @@
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputArgument;
 
 require 'vendor/autoload.php';
 
-$app = new Application();
+$app = new Application('Symfony Script Example One', '1.0');
 
 $app->register('sayHelloWorldTo')
-    ->addArgument('name')
+    ->setDescription('Is going to say hello back')
+    ->addArgument('name', InputArgument::REQUIRED, 'Your name.')
     ->setCode(function(InputInterface $input, OutputInterface $output)
     {
-	$output->writeln("Hello World");
+	$message = "Hello, " . $input->getArgument('name');
+
+	$output->writeln("<info>{$message}</info>");
     });
 
 $app->run();
